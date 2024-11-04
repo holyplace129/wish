@@ -17,7 +17,7 @@ public class WishDetailResponse {
     private final String image;
     private final Long price;
     private final LocalDate expirationAt;
-    private final int day;
+    private final long daysBetween;
 
     public static WishDetailResponse of(Wish wish) {
         return new WishDetailResponse(

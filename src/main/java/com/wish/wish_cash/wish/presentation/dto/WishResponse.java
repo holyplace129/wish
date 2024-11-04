@@ -16,7 +16,7 @@ public class WishResponse {
     private final String title;
     private final String content;
     private final String image;
-    private final int day;
+    private final long daysBetween;
 
     public static WishResponse from(Wish wish) {
         return new WishResponse(

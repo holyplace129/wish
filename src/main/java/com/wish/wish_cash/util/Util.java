@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 @RequiredArgsConstructor
 public class Util {
 
-    public static int calculateDate(LocalDate expirationAt) {
-        return Period.between(LocalDate.now(), expirationAt).getDays();
+    public static long calculateDate(LocalDate expirationAt) {
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), expirationAt);
+        return daysBetween;
     }
 }

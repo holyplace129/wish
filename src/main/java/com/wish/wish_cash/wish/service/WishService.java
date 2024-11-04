@@ -6,8 +6,6 @@ import com.wish.wish_cash.wish.domain.repository.WishRepository;
 import com.wish.wish_cash.wish.presentation.dto.WishDetailResponse;
 import com.wish.wish_cash.wish.presentation.dto.WishResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
