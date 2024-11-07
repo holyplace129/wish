@@ -2,11 +2,8 @@ package com.wish.wish_cash.wish.presentation.dto;
 
 import com.wish.wish_cash.util.Util;
 import com.wish.wish_cash.wish.domain.Wish;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDate;
 
 @Getter
 @RequiredArgsConstructor
