@@ -16,6 +16,8 @@ public class WishDetailResponse {
     private final String content;
     private final String image;
     private final Long price;
+    private final Long dayDeposit;
+    private final LocalDate startAt;
     private final LocalDate expirationAt;
     private final long daysBetween;
 
@@ -26,6 +28,8 @@ public class WishDetailResponse {
                 wish.getContent(),
                 wish.getImage(),
                 wish.getPrice(),
+                wish.getDayDeposit(),
+                wish.getStartAt(),
                 wish.getExpirationAt(),
                 Util.calculateDate(wish.getExpirationAt())
         );

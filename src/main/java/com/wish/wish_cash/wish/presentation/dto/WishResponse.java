@@ -5,6 +5,8 @@ import com.wish.wish_cash.wish.domain.Wish;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @RequiredArgsConstructor
 public class WishResponse {
@@ -13,6 +15,7 @@ public class WishResponse {
     private final String title;
     private final String content;
     private final String image;
+    private final LocalDate startAt;
     private final long daysBetween;
 
     public static WishResponse from(Wish wish) {
@@ -21,6 +24,7 @@ public class WishResponse {
                 wish.getTitle(),
                 wish.getContent(),
                 wish.getImage(),
+                wish.getStartAt(),
                 Util.calculateDate(wish.getExpirationAt())
         );
     }

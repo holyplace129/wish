@@ -3,6 +3,7 @@ package com.wish.wish_cash.wish.service;
 import com.wish.wish_cash.util.Util;
 import com.wish.wish_cash.wish.domain.Wish;
 import com.wish.wish_cash.wish.domain.repository.WishRepository;
+import com.wish.wish_cash.wish.presentation.dto.WishUpdateRequest;
 import com.wish.wish_cash.wish.presentation.dto.WishDetailResponse;
 import com.wish.wish_cash.wish.presentation.dto.WishRequest;
 import com.wish.wish_cash.wish.presentation.dto.WishResponse;
@@ -29,6 +30,7 @@ public class WishService {
                         wish.getTitle(),
                         wish.getContent(),
                         wish.getImage(),
+                        wish.getStartAt(),
                         Util.calculateDate(wish.getExpirationAt())
                 )).collect(Collectors.toList());
     }
@@ -40,23 +42,39 @@ public class WishService {
         if (wishDetail.isPresent()) {
             return WishDetailResponse.of(wishDetail.get());
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("위시리스트를 찾을 수 없습니다.");
         }
     }
 
     // 위시 리스트 생성
-    public WishResponse createWish(WishRequest wishRequest) {
+    public WishDetailResponse createWish(WishRequest wishRequest) {
         Wish wish = Wish.builder()
                 .title(wishRequest.getTitle())
                 .content(wishRequest.getContent())
                 .image(wishRequest.getImage())
                 .price(wishRequest.getPrice())
                 .dayDeposit(wishRequest.getDayDeposit())
-                .expirationAt(Util.calculateEndDate(wishRequest.getPrice(), wishRequest.getDayDeposit()))
+                .startAt(wishRequest.getStartAt())
+                .expirationAt(Util.calculateEndDate(wishRequest.getStartAt(), wishRequest.getPrice(), wishRequest.getDayDeposit()))
                 .createAt(LocalDate.now())
                 .build();
 
         Wish saveWish = wishRepository.save(wish);
-        return WishResponse.from(saveWish);
+        return WishDetailResponse.of(saveWish);
+    }
+
+    // 위시 리스트 수정
+    public WishDetailResponse updateWish(Integer id, WishUpdateRequest wishUpdateRequest) {
+        Optional<Wish> wishId = wishRepository.findById(id);
+
+        if (wishId.isPresent()) {
+            Wish wish = wishId.get();
+
+            wish.updateWish(wishUpdateRequest);
+            Wish updateWish = wishRepository.save(wish);
+            return WishDetailResponse.of(updateWish);
+        } else {
+            throw new IllegalArgumentException("위시리스트를 찾을 수 없습니다.");
+        }
     }
 }

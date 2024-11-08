@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class WishRequest {
+public class WishUpdateRequest {
 
     private final String title;
     private final String content;
@@ -16,7 +16,7 @@ public class WishRequest {
     private final LocalDate startAt;
 
     @Builder
-    public WishRequest(String title, String content, String image, Long price, Long dayDeposit, LocalDate startAt) {
+    public WishUpdateRequest(String title, String content, String image, Long price, Long dayDeposit, LocalDate startAt) {
         this.title = title;
         this.content = content;
         this.image = image;
