@@ -48,6 +48,15 @@ public class WishService {
 
     // 위시 리스트 생성
     public WishDetailResponse createWish(WishRequest wishRequest) {
+        LocalDate expirationAt = Util.calculateEndDate(
+                wishRequest.getStartAt(),
+                wishRequest.getPrice(),
+                wishRequest.getDayDeposit(),
+                wishRequest.getFrequency(),
+                wishRequest.getDayOfWeek(),
+                wishRequest.getDayOfMonth()
+        );
+
         Wish wish = Wish.builder()
                 .title(wishRequest.getTitle())
                 .content(wishRequest.getContent())
@@ -55,8 +64,7 @@ public class WishService {
                 .price(wishRequest.getPrice())
                 .dayDeposit(wishRequest.getDayDeposit())
                 .startAt(wishRequest.getStartAt())
-                .frequency(wishRequest.getFrequency())
-                .expirationAt(Util.calculateEndDate(wishRequest.getStartAt(), wishRequest.getPrice(), wishRequest.getDayDeposit(), wishRequest.getFrequency()))
+                .expirationAt(expirationAt)
                 .createAt(LocalDate.now())
                 .build();
 

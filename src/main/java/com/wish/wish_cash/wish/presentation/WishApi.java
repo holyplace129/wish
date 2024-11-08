@@ -11,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -41,11 +42,6 @@ public class WishApi {
         WishDetailResponse wishResponse = wishService.createWish(wishRequest);
         return ResponseEntity.ok(wishResponse);
     }
-
-    // 위시리스트 생성 v2
-    @PostMapping("")
-    public ResponseEntity<WishDetailResponse> createWishV2(@RequestBody WishRequest wishRequest)
-
 
     // 위시리스트 수정
     @PatchMapping("/{id}")
