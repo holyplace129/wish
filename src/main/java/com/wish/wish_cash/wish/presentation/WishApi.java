@@ -42,6 +42,11 @@ public class WishApi {
         return ResponseEntity.ok(wishResponse);
     }
 
+    // 위시리스트 생성 v2
+    @PostMapping("")
+    public ResponseEntity<WishDetailResponse> createWishV2(@RequestBody WishRequest wishRequest)
+
+
     // 위시리스트 수정
     @PatchMapping("/{id}")
     public ResponseEntity<WishDetailResponse> updateWish(@PathVariable Integer id, @RequestBody WishUpdateRequest wishUpdateRequest) {

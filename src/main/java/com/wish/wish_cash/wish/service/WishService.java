@@ -1,6 +1,6 @@
 package com.wish.wish_cash.wish.service;
 
-import com.wish.wish_cash.util.Util;
+import com.wish.wish_cash.common.util.Util;
 import com.wish.wish_cash.wish.domain.Wish;
 import com.wish.wish_cash.wish.domain.repository.WishRepository;
 import com.wish.wish_cash.wish.presentation.dto.WishUpdateRequest;
@@ -55,7 +55,8 @@ public class WishService {
                 .price(wishRequest.getPrice())
                 .dayDeposit(wishRequest.getDayDeposit())
                 .startAt(wishRequest.getStartAt())
-                .expirationAt(Util.calculateEndDate(wishRequest.getStartAt(), wishRequest.getPrice(), wishRequest.getDayDeposit()))
+                .frequency(wishRequest.getFrequency())
+                .expirationAt(Util.calculateEndDate(wishRequest.getStartAt(), wishRequest.getPrice(), wishRequest.getDayDeposit(), wishRequest.getFrequency()))
                 .createAt(LocalDate.now())
                 .build();
 
