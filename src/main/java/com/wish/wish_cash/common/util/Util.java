@@ -19,11 +19,7 @@ public class Util {
     // 마감일 계산 로직
     public static LocalDate calculateEndDate(LocalDate startAt, Long price, Long dayDeposit, Frequency frequency, String dayOfWeek, Integer dayOfMonth) {
         long totalDays = price / dayDeposit;
-        // price / dayDeposit = int
-        // now + int = expirationAt
-//        long plusDays = price / dayDeposit;
-//        LocalDate expirationDate = startAt.plusDays(plusDays);
-//        return expirationDate;
+
         switch (frequency) {
             case DAILY -> {
                 return startAt.plusDays(totalDays);
@@ -32,39 +28,30 @@ public class Util {
                 if (dayOfWeek == null) {
                     throw new IllegalArgumentException("요일을 입력해주세요");
                 }
-                return calculateWeeklyEndDate(startAt, totalDays, DayOfWeek.valueOf(dayOfWeek.toUpperCase()));
+                return calculateWeeklyEndDate(startAt, totalDays);
             }
             case MONTHLY -> {
                 if (dayOfMonth == null) {
                     throw new IllegalArgumentException("날짜를 입력해주세요");
                 }
-                return calculateMonthlyEndDate(startAt, totalDays, dayOfMonth);
+                return calculateMonthlyEndDate(startAt, totalDays);
             }
             default -> throw new IllegalArgumentException("지원하지 않습니다.");
         }
     }
 
-    private static LocalDate calculateWeeklyEndDate(LocalDate starAt, long totalDays, DayOfWeek dayOfWeek) {
-        long weeks = totalDays / 7;
-        long remainDays = totalDays % 7;
-        LocalDate endDate = starAt.plusDays(weeks);
-
-        while (endDate.getDayOfWeek() != dayOfWeek) {
-            endDate = endDate.plusDays(1);
-        }
-        return endDate.plusDays(remainDays);
+    private static LocalDate calculateWeeklyEndDate(LocalDate starAt, long totalDays) {
+        long weeks = totalDays;
+        long remainDays = totalDays * 7;
+        return starAt.plusDays(remainDays);
     }
 
-    private static LocalDate calculateMonthlyEndDate(LocalDate startAt, long totalDays, int dayOfMonth) {
-        long months = totalDays / 30;
+    private static LocalDate calculateMonthlyEndDate(LocalDate startAt, long totalDays) {
+        long months = totalDays;
         long remainDays = totalDays % 30;
-        LocalDate endDate = startAt.plusDays(months);
 
-        endDate = endDate.withDayOfMonth(Math.min(dayOfMonth, endDate.lengthOfMonth()));
-        return endDate.plusDays(remainDays);
+        return startAt.plusMonths(months);
     }
-
-
 
     // 수정 시 마김일 계산 로직
     public static LocalDate updateCalculateEndDate(LocalDate startAt, Long price, Long dayDeposit) {
