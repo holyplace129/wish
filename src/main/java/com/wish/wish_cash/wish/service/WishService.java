@@ -42,7 +42,8 @@ public class WishService {
         if (wishDetail.isPresent()) {
             return WishDetailResponse.of(wishDetail.get());
         } else {
-            throw new IllegalArgumentException("위시리스트를 찾을 수 없습니다.");
+            printNotFindWish();
+            return null;
         }
     }
 
@@ -83,7 +84,24 @@ public class WishService {
             Wish updateWish = wishRepository.save(wish);
             return WishDetailResponse.of(updateWish);
         } else {
-            throw new IllegalArgumentException("위시리스트를 찾을 수 없습니다.");
+            printNotFindWish();
+            return null;
         }
+    }
+
+    // 위시 리스트 삭제
+    public void deleteWish(Integer id) {
+        Optional<Wish> wishId = wishRepository.findById(id);
+
+        if (wishId.isPresent()) {
+            Wish wish = wishId.get();
+            wishRepository.delete(wish);
+        } else {
+            printNotFindWish();
+        }
+    }
+
+    private static void printNotFindWish() {
+        throw new IllegalArgumentException("위시리스트를 찾을 수 없습니다.");
     }
 }

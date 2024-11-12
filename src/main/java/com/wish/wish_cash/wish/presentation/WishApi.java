@@ -1,5 +1,6 @@
 package com.wish.wish_cash.wish.presentation;
 
+import com.wish.wish_cash.wish.domain.Wish;
 import com.wish.wish_cash.wish.presentation.dto.WishDetailResponse;
 import com.wish.wish_cash.wish.presentation.dto.WishRequest;
 import com.wish.wish_cash.wish.presentation.dto.WishResponse;
@@ -48,5 +49,12 @@ public class WishApi {
     public ResponseEntity<WishDetailResponse> updateWish(@PathVariable Integer id, @RequestBody WishUpdateRequest wishUpdateRequest) {
         WishDetailResponse wishResponse = wishService.updateWish(id, wishUpdateRequest);
         return ResponseEntity.ok(wishResponse);
+    }
+
+    // 위시리스트 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWish(@PathVariable Integer id) {
+        wishService.deleteWish(id);
+        return ResponseEntity.noContent().build();
     }
 }
