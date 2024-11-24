@@ -10,6 +10,7 @@ import com.wish.wish_cash.wish.presentation.dto.WishResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,6 +49,7 @@ public class WishService {
     }
 
     // 위시 리스트 생성
+    @Transactional
     public WishDetailResponse createWish(WishRequest wishRequest) {
         LocalDate expirationAt = Util.calculateEndDate(
                 wishRequest.getStartAt(),
