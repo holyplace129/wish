@@ -17,7 +17,7 @@ public class Util {
     }
 
     // 마감일 계산 로직
-    public static LocalDate calculateEndDate(LocalDate startAt, Long price, Long dayDeposit, Frequency frequency, String dayOfWeek, Integer dayOfMonth) {
+    public static LocalDate calculateEndDate(LocalDate startAt, Long price, Long dayDeposit, Frequency frequency) {
         long totalDays = price / dayDeposit;
 
         switch (frequency) {
@@ -25,15 +25,9 @@ public class Util {
                 return startAt.plusDays(totalDays);
             }
             case WEEKLY -> {
-                if (dayOfWeek == null) {
-                    throw new IllegalArgumentException("요일을 입력해주세요");
-                }
                 return calculateWeeklyEndDate(startAt, totalDays);
             }
             case MONTHLY -> {
-                if (dayOfMonth == null) {
-                    throw new IllegalArgumentException("날짜를 입력해주세요");
-                }
                 return calculateMonthlyEndDate(startAt, totalDays);
             }
             default -> throw new IllegalArgumentException("지원하지 않습니다.");

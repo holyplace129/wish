@@ -16,11 +16,9 @@ public class WishUpdateRequest {
     private final Long dayDeposit;
     private final LocalDate startAt;
     private final Frequency frequency;
-    private final String dayOfWeek;
-    private final Integer dayOfMonth;
 
     @Builder
-    public WishUpdateRequest(String title, String content, String image, Long price, Long dayDeposit, LocalDate startAt, Frequency frequency, String dayOfWeek, Integer dayOfMonth) {
+    public WishUpdateRequest(String title, String content, String image, Long price, Long dayDeposit, LocalDate startAt, Frequency frequency) {
         this.title = title;
         this.content = content;
         this.image = image;
@@ -28,7 +26,5 @@ public class WishUpdateRequest {
         this.dayDeposit = dayDeposit;
         this.startAt = startAt;
         this.frequency = frequency;
-        this.dayOfWeek = dayOfWeek;
-        this.dayOfMonth = dayOfMonth;
     }
 }

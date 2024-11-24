@@ -53,9 +53,7 @@ public class WishService {
                 wishRequest.getStartAt(),
                 wishRequest.getPrice(),
                 wishRequest.getDayDeposit(),
-                wishRequest.getFrequency(),
-                wishRequest.getDayOfWeek(),
-                wishRequest.getDayOfMonth()
+                wishRequest.getFrequency()
         );
 
         Wish wish = Wish.builder()
