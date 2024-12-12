@@ -63,10 +63,12 @@ public class WishServiceV2 {
     public WishDetailResponse updateWish(Integer id, WishUpdateRequest wishUpdateRequest) {
         Wish wish = wishRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("위시리스트를 찾을 수 없습니다."));
-
-        wish.updateWish(wishUpdateRequest);
-
-        return WishDetailResponse.of(wishRepository.save(wish));
+        if (wishUpdateRequest.getDayDeposit() > wish.getCurrentAmount()) {
+            throw new IllegalArgumentException("입금액은 현제 금액보다 클 수 없습니다.");
+        } else {
+            wish.updateWish(wishUpdateRequest);
+            return WishDetailResponse.of(wishRepository.save(wish));
+        }
     }
 
     // 삭제

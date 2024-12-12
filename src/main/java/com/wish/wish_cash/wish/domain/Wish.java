@@ -63,22 +63,20 @@ public class Wish {
     }
 
     public void updateWish(WishUpdateRequest wishUpdateRequest) {
-        this.title = wishUpdateRequest.getTitle();
-        this.content = wishUpdateRequest.getContent();
-        this.image = wishUpdateRequest.getImage();
-        this.price = wishUpdateRequest.getPrice();
-        this.dayDeposit = wishUpdateRequest.getDayDeposit();
-        this.frequency = wishUpdateRequest.getFrequency();
-        this.startAt = wishUpdateRequest.getStartAt();
+        // null 체크를 통해 기존 값 유지
+        this.title = wishUpdateRequest.getTitle() != null ? wishUpdateRequest.getTitle() : this.title;
+        this.content = wishUpdateRequest.getContent() != null ? wishUpdateRequest.getContent() : this.content;
+        this.image = wishUpdateRequest.getImage() != null ? wishUpdateRequest.getImage() : this.image;
+        this.price = wishUpdateRequest.getPrice() != null ? wishUpdateRequest.getPrice() : this.price;
+        this.dayDeposit = wishUpdateRequest.getDayDeposit() != null ? wishUpdateRequest.getDayDeposit() : this.dayDeposit;
+        this.frequency = wishUpdateRequest.getFrequency() != null ? wishUpdateRequest.getFrequency() : this.frequency;
+        this.startAt = wishUpdateRequest.getStartAt() != null ? wishUpdateRequest.getStartAt() : this.startAt;
         this.modifyAt = LocalDate.now();
 
-        long totalDays = FrequencyUtil.calculateTotalDays(
-                this.price,
-                this.dayDeposit,
-                this.frequency
-        );
-
-        this.expirationAt = DateUtil.calculateEndDate(this.getStartAt(), totalDays, this.getFrequency());
+        // price와 dayDeposit이 null인 경우 totalDays 계산 생략
+        if (this.price != null && this.dayDeposit != null) {
+            long totalDays = FrequencyUtil.calculateTotalDays(this.price, this.dayDeposit, this.frequency);
+            this.expirationAt = DateUtil.calculateEndDate(this.getStartAt(), totalDays, this.getFrequency());
+        }
     }
-    // TODO : wishUpdate frequency calculate
 }

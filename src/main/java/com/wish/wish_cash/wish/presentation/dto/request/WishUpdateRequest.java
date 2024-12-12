@@ -19,15 +19,6 @@ public class WishUpdateRequest {
     private final LocalDate startAt;
     private final Frequency frequency;
 
-    private LocalDate calculateUpdateEndDate(WishUpdateRequest wishUpdateRequest) {
-        long totalDays = FrequencyUtil.calculateTotalDays(
-                wishUpdateRequest.getPrice(),
-                wishUpdateRequest.getDayDeposit(),
-                wishUpdateRequest.getFrequency()
-        );
-        return DateUtil.calculateEndDate(wishUpdateRequest.getStartAt(), totalDays, wishUpdateRequest.getFrequency());
-    }
-
     @Builder
     public WishUpdateRequest(String title, String content, String image, Long price, Long dayDeposit, LocalDate startAt, Frequency frequency) {
         this.title = title;
