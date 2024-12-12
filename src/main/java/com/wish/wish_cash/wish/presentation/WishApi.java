@@ -1,10 +1,9 @@
 package com.wish.wish_cash.wish.presentation;
 
-import com.wish.wish_cash.wish.domain.Wish;
-import com.wish.wish_cash.wish.presentation.dto.WishDetailResponse;
-import com.wish.wish_cash.wish.presentation.dto.WishRequest;
-import com.wish.wish_cash.wish.presentation.dto.WishResponse;
-import com.wish.wish_cash.wish.presentation.dto.WishUpdateRequest;
+import com.wish.wish_cash.wish.presentation.dto.response.WishDetailResponse;
+import com.wish.wish_cash.wish.presentation.dto.request.WishRequest;
+import com.wish.wish_cash.wish.presentation.dto.response.WishResponse;
+import com.wish.wish_cash.wish.presentation.dto.request.WishUpdateRequest;
 import com.wish.wish_cash.wish.service.WishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -56,5 +54,12 @@ public class WishApi {
     public ResponseEntity<Void> deleteWish(@PathVariable Integer id) {
         wishService.deleteWish(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // 금액 수정
+    @PutMapping("/amount/{id}")
+    public ResponseEntity<WishDetailResponse> updateCurrentAmount(@PathVariable Integer id) {
+        WishDetailResponse wishId = wishService.updateCurrentAmount(id);
+        return ResponseEntity.ok(wishId);
     }
 }

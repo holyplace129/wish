@@ -1,7 +1,7 @@
 package com.wish.wish_cash.wish.domain;
 
 import com.wish.wish_cash.common.util.Util;
-import com.wish.wish_cash.wish.presentation.dto.WishUpdateRequest;
+import com.wish.wish_cash.wish.presentation.dto.request.WishUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,24 +19,35 @@ public class Wish {
     private Integer id;
 
     private String title;
+
     private String content;
+
     private String image;
+
     private Long price;
+
+    private Long currentAmount;
+
     private Long dayDeposit;
+
     private LocalDate createAt;
+
     private LocalDate startAt;
+
     private LocalDate modifyAt;
+
     private LocalDate expirationAt;
 
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
     @Builder
-    public Wish(String title, String content, String image, Long price, Long dayDeposit, LocalDate createAt, LocalDate startAt, LocalDate modifyAt, LocalDate expirationAt, Frequency frequency) {
+    public Wish(String title, String content, String image, Long price, Long currentAmount, Long dayDeposit, LocalDate createAt, LocalDate startAt, LocalDate modifyAt, LocalDate expirationAt, Frequency frequency) {
         this.title = title;
         this.content = content;
         this.image = image;
         this.price = price;
+        this.currentAmount = currentAmount;
         this.dayDeposit = dayDeposit;
         this.createAt = createAt;
         this.startAt = startAt;
@@ -45,10 +56,15 @@ public class Wish {
         this.frequency = frequency;
     }
 
+    public void updateCurrentAmount(Long currentAmount) {
+        this.currentAmount = currentAmount;
+    }
+
     public void updateWish(WishUpdateRequest wishUpdateRequest) {
         this.title = wishUpdateRequest.getTitle();
         this.content = wishUpdateRequest.getContent();
         this.image = wishUpdateRequest.getImage();
+        this.currentAmount = wishUpdateRequest.getCurrentAmount();
         this.price = wishUpdateRequest.getPrice();
         this.dayDeposit = wishUpdateRequest.getDayDeposit();
         this.modifyAt = LocalDate.now();

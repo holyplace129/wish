@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wish.wish_cash.wish.domain.Frequency;
 import com.wish.wish_cash.wish.domain.QWish;
 import com.wish.wish_cash.wish.domain.Wish;
-import com.wish.wish_cash.wish.presentation.dto.WishResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -3,7 +3,6 @@ package com.wish.wish_cash.common.util;
 import com.wish.wish_cash.wish.domain.Frequency;
 import lombok.RequiredArgsConstructor;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -17,8 +16,8 @@ public class Util {
     }
 
     // 마감일 계산 로직
-    public static LocalDate calculateEndDate(LocalDate startAt, Long price, Long dayDeposit, Frequency frequency) {
-        long totalDays = price / dayDeposit;
+    public static LocalDate calculateEndDate(LocalDate startAt, Long currentAmount, Long dayDeposit, Frequency frequency) {
+        long totalDays = currentAmount / dayDeposit;
 
         switch (frequency) {
             case DAILY -> {
@@ -48,16 +47,17 @@ public class Util {
     }
 
     // 수정 시 마김일 계산 로직
-    public static LocalDate updateCalculateEndDate(LocalDate startAt, Long price, Long dayDeposit) {
-        long calculateDay = calculatePrice(startAt, price, dayDeposit) / dayDeposit;
+    public static LocalDate updateCalculateEndDate(LocalDate startAt, Long currentAmount, Long dayDeposit) {
+        long calculateDay = calculatePrice(startAt, currentAmount, dayDeposit) / dayDeposit;
         LocalDate expirationDate = LocalDate.now().plusDays(calculateDay);
         return expirationDate;
     }
 
     // dayDeposit 수정 시 남은 금액 로직
-    private static long calculatePrice(LocalDate startAt, Long price, Long dayDeposit) {
+    private static long calculatePrice(LocalDate startAt, Long currentAmount, Long dayDeposit) {
         long days = ChronoUnit.DAYS.between(startAt, LocalDate.now());
-        long updatePrice =  price - (dayDeposit * days);
+        long updatePrice =  currentAmount - (dayDeposit * days);
         return updatePrice;
     }
+
 }

@@ -3,10 +3,10 @@ package com.wish.wish_cash.wish.service;
 import com.wish.wish_cash.common.util.Util;
 import com.wish.wish_cash.wish.domain.Wish;
 import com.wish.wish_cash.wish.domain.repository.WishRepository;
-import com.wish.wish_cash.wish.presentation.dto.WishUpdateRequest;
-import com.wish.wish_cash.wish.presentation.dto.WishDetailResponse;
-import com.wish.wish_cash.wish.presentation.dto.WishRequest;
-import com.wish.wish_cash.wish.presentation.dto.WishResponse;
+import com.wish.wish_cash.wish.presentation.dto.request.WishRequest;
+import com.wish.wish_cash.wish.presentation.dto.request.WishUpdateRequest;
+import com.wish.wish_cash.wish.presentation.dto.response.WishDetailResponse;
+import com.wish.wish_cash.wish.presentation.dto.response.WishResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -63,6 +63,7 @@ public class WishService {
                 .content(wishRequest.getContent())
                 .image(wishRequest.getImage())
                 .price(wishRequest.getPrice())
+                .currentAmount(wishRequest.getPrice())
                 .dayDeposit(wishRequest.getDayDeposit())
                 .startAt(wishRequest.getStartAt())
                 .expirationAt(expirationAt)
@@ -98,6 +99,25 @@ public class WishService {
             wishRepository.delete(wish);
         } else {
             printNotFindWish();
+        }
+    }
+
+    // 위시 금액 차감
+    public WishDetailResponse updateCurrentAmount(Integer id) {
+        Optional<Wish> wishId = wishRepository.findById(id);
+
+        if (wishId.isPresent()) {
+            Wish wish = wishId.get();
+
+            Long calculateAmount = wish.getCurrentAmount() - wish.getDayDeposit();
+            wish.updateCurrentAmount(calculateAmount);
+
+            wishRepository.save(wish);
+
+            return WishDetailResponse.of(wish);
+        } else {
+            printNotFindWish();
+            return null;
         }
     }
 
