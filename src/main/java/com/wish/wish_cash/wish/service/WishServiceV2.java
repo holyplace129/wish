@@ -40,13 +40,7 @@ public class WishServiceV2 {
     // 생성
     @Transactional
     public WishDetailResponse createWish(WishRequest wishRequest) {
-        long totalDays = FrequencyUtil.calculateTotalDays(
-                wishRequest.getPrice(),
-                wishRequest.getDayDeposit(),
-                wishRequest.getFrequency()
-        );
-
-        LocalDate expirationAt = DateUtil.calculateEndDate(wishRequest.getStartAt(), totalDays, wishRequest.getFrequency());
+        LocalDate expirationDate = calculateEndDate(wishRequest);
 
         Wish wish = Wish.builder()
                 .title(wishRequest.getTitle())
@@ -55,8 +49,9 @@ public class WishServiceV2 {
                 .price(wishRequest.getPrice())
                 .currentAmount(wishRequest.getPrice())
                 .dayDeposit(wishRequest.getDayDeposit())
+                .frequency(wishRequest.getFrequency())
                 .startAt(wishRequest.getStartAt())
-                .expirationAt(expirationAt)
+                .expirationAt(expirationDate)
                 .createAt(LocalDate.now())
                 .build();
 
@@ -70,6 +65,7 @@ public class WishServiceV2 {
                 .orElseThrow(() -> new IllegalArgumentException("위시리스트를 찾을 수 없습니다."));
 
         wish.updateWish(wishUpdateRequest);
+
         return WishDetailResponse.of(wishRepository.save(wish));
     }
 
@@ -90,5 +86,14 @@ public class WishServiceV2 {
         wish.updateCurrentAmount(newCurrentAmount);
 
         return WishDetailResponse.of(wishRepository.save(wish));
+    }
+
+    private LocalDate calculateEndDate(WishRequest wishRequest) {
+        long totalDays = FrequencyUtil.calculateTotalDays(
+                wishRequest.getPrice(),
+                wishRequest.getDayDeposit(),
+                wishRequest.getFrequency()
+        );
+        return DateUtil.calculateEndDate(wishRequest.getStartAt(), totalDays, wishRequest.getFrequency());
     }
 }

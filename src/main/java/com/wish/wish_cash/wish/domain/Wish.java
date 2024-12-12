@@ -1,5 +1,7 @@
 package com.wish.wish_cash.wish.domain;
 
+import com.wish.wish_cash.common.util.DateUtil;
+import com.wish.wish_cash.common.util.FrequencyUtil;
 import com.wish.wish_cash.common.util.Util;
 import com.wish.wish_cash.wish.presentation.dto.request.WishUpdateRequest;
 import jakarta.persistence.*;
@@ -64,10 +66,19 @@ public class Wish {
         this.title = wishUpdateRequest.getTitle();
         this.content = wishUpdateRequest.getContent();
         this.image = wishUpdateRequest.getImage();
-        this.currentAmount = wishUpdateRequest.getCurrentAmount();
         this.price = wishUpdateRequest.getPrice();
         this.dayDeposit = wishUpdateRequest.getDayDeposit();
+        this.frequency = wishUpdateRequest.getFrequency();
+        this.startAt = wishUpdateRequest.getStartAt();
         this.modifyAt = LocalDate.now();
-        this.expirationAt = Util.updateCalculateEndDate(this.getStartAt(), this.getPrice(), this.getDayDeposit());
+
+        long totalDays = FrequencyUtil.calculateTotalDays(
+                this.price,
+                this.dayDeposit,
+                this.frequency
+        );
+
+        this.expirationAt = DateUtil.calculateEndDate(this.getStartAt(), totalDays, this.getFrequency());
     }
+    // TODO : wishUpdate frequency calculate
 }

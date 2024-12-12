@@ -41,14 +41,7 @@ public class WishApiV2 {
     // 위시리스트 생성
     @PostMapping("")
     public ResponseEntity<WishDetailResponse> createWish(@RequestBody WishRequest wishRequest) {
-        // 만료일 계산은 WishCalculatorService에서 처리
-        LocalDate expirationAt = wishCalculatorService.calculateExpirationDate(wishRequest);
-
-        // Service에서 처리할 수 있도록 만료일 추가
-        WishDetailResponse createdWish = wishService.createWish(
-                wishRequest.toBuilder().expirationAt(expirationAt).build()
-        );
-
+        WishDetailResponse createdWish = wishService.createWish(wishRequest);
         return ResponseEntity.ok(createdWish);
     }
 

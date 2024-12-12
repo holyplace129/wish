@@ -21,4 +21,7 @@ public class DateUtil {
             default -> throw new IllegalArgumentException("지원하지 않는 주기입니다.");
         };
     }
+
+//    // 업데이트 마감일 계산 로직
+//    public static LocalDate calculateUpdateEndDate(LocalDate startAt,)
 }

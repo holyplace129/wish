@@ -1,6 +1,7 @@
 package com.wish.wish_cash.wish.presentation.dto.response;
 
 import com.wish.wish_cash.common.util.Util;
+import com.wish.wish_cash.wish.domain.Frequency;
 import com.wish.wish_cash.wish.domain.Wish;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class WishDetailResponse {
     private final String title;
     private final String content;
     private final String image;
+    private final Frequency frequency;
     private final Long price;
     private final Long currentAmount;
     private final Long dayDeposit;
@@ -30,6 +32,7 @@ public class WishDetailResponse {
                 wish.getTitle(),
                 wish.getContent(),
                 wish.getImage(),
+                wish.getFrequency(),
                 wish.getPrice(),
                 wish.getCurrentAmount(),
                 wish.getDayDeposit(),
